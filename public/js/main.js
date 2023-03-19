@@ -11,6 +11,7 @@ let context;
 window.onload = function(){
   context = new AudioContext();
 }
+
 const updateOptions = () => {
   // Generate array of dates for the selected date plus up to 7 more days
   const selectedDate = new Date(`${datepicker.value} UTC`);
@@ -35,46 +36,56 @@ const updateOptions = () => {
   const schedule = document.querySelector('#schedule');
   schedule.innerHTML = '';
 
-  // Generate the new options for each day and hour
-  days.forEach((day, index) => {
+  //create table header 
+  const tableHeadRow = document.createElement('tr')
+  days.forEach(day => {
     const dayOfWeek = day.toLocaleDateString('en-US', { weekday: 'long' });
     const dayOfMonth = day.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' });
     const dayId = dayOfWeek.toLowerCase();
 
-    const dayOption = document.createElement('li');
+    const dayOption = document.createElement('th');
     dayOption.classList.add('day');
     dayOption.setAttribute('id', dayId);
+    dayOption.setAttribute('scope', 'col');
     dayOption.textContent = `${dayOfWeek} ${dayOfMonth}`;
+    console.log(dayOption)
+    tableHeadRow.appendChild('dayOption')
+  })
 
-    const hourOptions = document.createElement('ol');
-    const dayHours = [];
-    for (let i = 0; i < hours.length; i++) {
-      const time = hours[i];
-      if (time.getDate() === day.getDate()) {
-        dayHours.push(time);
-      }
-    }
+  const tableBody = document.createElement('tbody')
+  hours.forEach((hour, index)=>{ //create table row by row (1 row for each hour)
+    const hourRow = document.createElement('tr')
 
-    dayHours.forEach(hour => {
-      const hourOption = document.createElement('li');
-      hourOption.classList.add('hour');
+    //populate each column with the input info (ie moving mon-fri add the input field for 9am for each day and then move to the next row and then do the same for 10am etc.).
+    days.forEach(day => {
+      const dayOfWeek = day.toLocaleDateString('en-US', { weekday: 'long' });
+      const dayOfMonth = day.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' });
+      const dayId = dayOfWeek.toLowerCase();
 
+      //create input field
       const checkbox = document.createElement('input');
       checkbox.setAttribute('type', 'checkbox');
       checkbox.setAttribute('name', 'facilitatorTime');
       checkbox.setAttribute('class', 'timeSlot');
-      checkbox.setAttribute('value', `${dayOfWeek}, ${hour.toISOString()}`);
-      hourOption.appendChild(checkbox);
+      checkbox.setAttribute('value', `${dayOfWeek}, ${hour.toISOString()}`)
+      //append input field to a td element to create a cell in the tabel
+      const hourOption = document.createElement('td')
+      hourOption.appendChild(checkbox)
 
+      //append label to input field so user can see the time
       const label = document.createElement('label');
       label.textContent = hour.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
       hourOption.appendChild(label);
-      hourOptions.appendChild(hourOption);
-    });
 
-    dayOption.appendChild(hourOptions);
-    schedule.appendChild(dayOption);
-  });
+      hourRow.appendChild('hourOption')
+    })
+    tableBody.appendChild(hourRow)
+  })
+  const tableHead = document.createElement('thead')
+  console.log(tableHeadRow)
+  tableHead.appendChild('tableHeadRow')
+  schedule.appendChild('tableHead')
+  schedule.appendChild('tableBody')
 }
 
 document.getElementById('earliestTime').addEventListener('change', () => {
