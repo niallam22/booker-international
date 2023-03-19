@@ -27,10 +27,6 @@
             </div>
         </div>
     </nav>
-    <div id="availablitiyContainer">
-        
-    </div>
- 
 
     <section class="bg-dark text-light p-5">
         <div class="container">
@@ -108,26 +104,6 @@
     
                               
                               <table class="table" id="schedule">
-                                <thead>
-                                  <tr>
-                                      <% days.map(dayOfWeek=>{ %>
-                                          <th scope="col" id="<%=dayOfWeek.toLowerCase()%>"><%=dayOfWeek%></th>
-                                      <% } ) %>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <% hours.map(hour =>{ %>
-                                      <tr>
-                                          <% days.map(dayOfWeek=>{ %>
-                                              <td>
-                                                  <input type="checkbox" name="facilitatorTime" class="timeSlot" value="<%=dayOfWeek%>, <%=hour %>">
-                                                  <%= hour %>
-                                                  </input>
-                                              </td>
-                                          <% }) %>
-                                      </tr>
-                                  <% }) %> 
-                                </tbody>
                               </table>
                               
                             </div>

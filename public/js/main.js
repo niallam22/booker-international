@@ -1,17 +1,18 @@
 const datepicker = document.querySelector('#datepicker input');
 const timeSlots = document.querySelectorAll('.timeSlot');
 
-// set meeting bounds
-let earliestTime;
-let latestTime;
-let dayRange;
+// set default meeting bounds
+let earliestTime=0;
+let latestTime=23;
+let dayRange=1;
 
 // Create an AudioContext to handle browser gesture errors
+//!!!!AudioContext is not supported on all browsers, so this may cause an error on some browsers. add a check to see if AudioContext is supported before trying to use it.
 let context;
 window.onload = function(){
   context = new AudioContext();
 }
-
+// !!!!!updateOptions() is called when the datepicker value changes, but datepicker.value is used to create a new Date object without checking if it is valid. If datepicker.value is an empty string or an invalid date format, this will cause an error. add a check to ensure that datepicker .value is a valid date before creating a new Date object with it. or a try catch block to catch the error
 const updateOptions = () => {
   // Generate array of dates for the selected date plus up to 7 more days
   const selectedDate = new Date(`${datepicker.value} UTC`);
@@ -48,8 +49,7 @@ const updateOptions = () => {
     dayOption.setAttribute('id', dayId);
     dayOption.setAttribute('scope', 'col');
     dayOption.textContent = `${dayOfWeek} ${dayOfMonth}`;
-    console.log(dayOption)
-    tableHeadRow.appendChild('dayOption')
+    tableHeadRow.appendChild(dayOption)
   })
 
   const tableBody = document.createElement('tbody')
@@ -77,15 +77,17 @@ const updateOptions = () => {
       label.textContent = hour.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
       hourOption.appendChild(label);
 
-      hourRow.appendChild('hourOption')
+      hourRow.appendChild(hourOption)
     })
     tableBody.appendChild(hourRow)
   })
   const tableHead = document.createElement('thead')
-  console.log(tableHeadRow)
-  tableHead.appendChild('tableHeadRow')
-  schedule.appendChild('tableHead')
-  schedule.appendChild('tableBody')
+  tableHead.appendChild(tableHeadRow)
+  const table = document.createElement('table')
+  table.classList.add('table')
+  table.appendChild(tableHead)
+  table.appendChild(tableBody)
+  schedule.appendChild(table)
 }
 
 document.getElementById('earliestTime').addEventListener('change', () => {
