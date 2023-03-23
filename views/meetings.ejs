@@ -42,7 +42,7 @@
                         <form action="meetings/createMeeting" method="POST">   
                             <div class="mb-3">
                               <label for="title" class="form-label">Title</label>
-                              <input type="text" class="form-control" id="title" placeholder="Meeting title">
+                              <input type="text" class="form-control" id="title" name="title" placeholder="Meeting title">
                             </div>
     
                             <div class="mb-3">
@@ -69,7 +69,7 @@
                               </div>
     
                             <div class="mb-3">
-                                  <label for="date" class="col-1 col-form-label">Date</label>
+                                  <label for="date" class="col-form-label">Date</label>
     
                                     <div class="input-group date" id="datepicker">
                                       <input type="text" class="form-control" id="date" placeholder="Select a date"/>
@@ -79,36 +79,35 @@
                                         </span>
                                       </span>
                                     </div>
-    
-                                             
+               
                             <!-- template for meeting availablitiy -->
-                              <% const days= [] %>
-                              <% const hours= [] %>
-                          
-                              <ol id="">
-                                  <% days.map(dayOfWeek=>{ %>
-                                      <li class="day" id="<%=dayOfWeek.toLowerCase()%>">
-                                          <%=dayOfWeek%>
-                                          <ol>
-                                              <% hours.map(hour =>{ %>
-                                                  <li class="hour">
-                                                      <input type="checkbox" name="facilitatorTime" class="timeSlot" value="<%=dayOfWeek%>, <%=hour %>">
-                                                      <%= hour %>
-                                                      </input>
-                                                  </li> 
-                                              <% }) %>
-                                          </ol>
-                                      </li>
-                                  <% } ) %>
-                              </ol>
-    
-                              
-                              <table class="table" id="schedule">
-                              </table>
-                              
+                            <div class="table-responsive">
+                                <table class="table" id="schedule">  
+                                <% const days= [] %>
+                                <% const hours= [] %>
+                            
+                                <ol id="">
+                                    <% days.map(dayOfWeek=>{ %>
+                                        <li class="day" id="<%=dayOfWeek.toLowerCase()%>">
+                                            <%=dayOfWeek%>
+                                            <ol>
+                                                <% hours.map(hour =>{ %>
+                                                    <li class="hour">
+                                                        <input type="checkbox" name="facilitatorTime" class="timeSlot" value="<%=dayOfWeek%>, <%=hour %>">
+                                                        <%= hour %>
+                                                        </input>
+                                                    </li> 
+                                                <% }) %>
+                                            </ol>
+                                        </li>
+                                    <% } ) %>
+                                </ol>
+        
+                                </table>
                             </div>
+                            </div>
+                        <button class="btn btn-primary" type="submit">Submit</button>
                     </form>
-                      <button class="btn btn-primary" type="submit">Submit</button>
                     </div>
                   </div>
             </div>
