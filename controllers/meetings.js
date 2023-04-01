@@ -10,7 +10,6 @@ moment.tz.setDefault('UTC')
 //display facilitator meetings
 module.exports = {
     getMeetings: async (req,res)=>{
-
         try{
             const meetingItems = await Meeting.find({userId:req.user.id})
             const itemsLeft = await Meeting.countDocuments({userId:req.user.id})//
@@ -23,8 +22,10 @@ module.exports = {
     getMeeting: async (req,res)=>{
         try{
             const meetingItem = await Meeting.findById(req.params.id)
+            console.log(`meetings controller getMeeting meeting document: ${meetingItem}`)
+            
             let attendeeInfo = await Attendee.find({meetingId:req.params.id})
-            res.render('meeting.ejs', {meeting: meetingItem, attendees: attendeeInfo, user: req.user,moment : moment})
+            res.render('meeting.ejs', {meeting: meetingItem, attendees: attendeeInfo, user: req.user, moment : moment})
         }catch(err){
             console.log(err)
         }
@@ -45,7 +46,7 @@ module.exports = {
     createMeeting: async (req, res)=>{
         console.log('this is req.body',req.body)
         try{
-            Meeting.create({userId: req.user.id, meetingTitle: req.body.title, notes: req.body.notes, userAvailability: req.body.facilitatorTime, finalMeetingTime: req.body.finalMeetingTime})
+            Meeting.create({userId: req.user.id, meetingTitle: req.body.meetingTitle, notes: req.body.notes, userAvailability: req.body.facilitatorTime, finalMeetingTime: req.body.finalMeetingTime})
             console.log(req.body)
             console.log('Meeting has been created!')
             res.redirect('/meetings')
