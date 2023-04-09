@@ -36,11 +36,21 @@
                     <h5 class="card-header">Meeting: <%= meetings.meetingTitle %></h5>
                     <div class="card-body">
                         <div class="mb-3">
-                            <ul class="list-unstyled">
-                                <% console.log(meetings) %>
-                                <li>Attendees: </span><%= meetings.attendees %></li>
+                            <ul class="list-unstyled">            
+                                <li>Finalised meeting time: 
+                                    <% if (meetings.finalMeetingTime) { %>
+                                        <% const meetingTimeUTC = moment.utc(meetings.finalMeetingTime, "YYYY-MM-DDTHH:mm:SS.SSS[Z]"); %>
+                                        
+                                        <% const userTimezone = moment.tz.guess(); %>
+                                        <% const meetingTimeLocal = meetingTimeUTC.clone().tz(userTimezone); %>
+                                        <% console.log(`meetingTimeLocal ${meetingTimeLocal.format('dddd, MMMM Do YYYY, h:mma z')}`)%>
+
+                                        <%= meetingTimeLocal.format('dddd, MMMM Do YYYY, h:mma z') %>
+                                    <% } else { %>
+                                        Awaiting confirmation
+                                    <% } %>
+                                </li>
                                 <li>Meeting Notes: </span><%= meetings.notes %></li>
-                                <li>Meeting Facilitator's Availability: </span><%= meetings.userAvailability %></li>
                             </ul>
                         </div>
                     </div>
