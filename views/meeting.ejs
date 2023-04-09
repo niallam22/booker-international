@@ -72,11 +72,12 @@
                                         </thead>
                                         <tbody>
                                             <%# code itterates through the facilitators availbility and checks if there is corrosponding attendee responses and creates the table data EL AND ATTENDEEAVALIBILITY HAVE DIFF FORMATS FOR SOME REASON%>
-
+                                            
                                             <% meeting.userAvailability.forEach( el => { %>
-                                                <% const meetingTimeUTC = moment.utc(el, "YYYY-MM-DDTHH:mm:ss.SSS[Z]"); %>
-                                                <% const meetingTimeLocal = meetingTimeUTC.local().format("dddd, MMMM Do YYYY, h:mm a"); %>
-
+                                                <% let meetingTimeUTC = moment.utc(el, "YYYY-MM-DDTHH:mm:ss.SSS[Z]"); %>
+                                                <% let meetingTimeLocal = meetingTimeUTC.local().format("dddd, MMMM Do YYYY, h:mm a"); %>
+                                                <% console.log('meetingTimeUTC meeting.ejs', meetingTimeUTC)%>
+                                                <% console.log('el meeting.ejs', el)%>
                                                 <% let attendeesAvailable = 0 %>
                                                 <% let attendeeResponses = '' %>
                                                 <% attendees.forEach(attendee => { %>
