@@ -5,44 +5,92 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-
 </head>
 <body>
-    <h1 class='meetLogItem'></span><%= meetings.meetingTitle %></h1>
-    <section class="update availability">
-            <fieldset>
-                <legend></legend>
-                    <ul>
-                        <li class='meetLogItem'><span>Attendees - </span><%= meetings.attendees %></li>
-                        <li class='meetLogItem'><span>Meeting Notes - </span><%= meetings.notes %></li>
-                        <li class='meetLogItem'><span>Meeting Facilitator's Availability - </span><%= meetings.userAvailability %></li>
-                    </ul>
-            </fieldset>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container">
+            <a href="" class="navbar-brand">Booker</a>
+            
+            <div>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="/logout" class="nav-link">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Meeting Information -->
+    <section class="bg-dark text-light p-5.5">
+        <div class="container">
+            <div class pb-5>
+                <h1 class='text-center'><%= meetings.meetingTitle %></h1>
+                <div class="card bg-secondary col-lg-8 mx-auto">
+                    <h5 class="card-header">Meeting Information</h5>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <ul class="list-unstyled">
+                                <li>Attendees: </span><%= meetings.attendees %></li>
+                                <li>Meeting Notes: </span><%= meetings.notes %></li>
+                                <li>Meeting Facilitator's Availability: </span><%= meetings.userAvailability %></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
-    <section>
-        <h3>Choose your availability based on Facilitator's options</h3>
-        <form action="/meetings/updateAvail/<%= meetings._id %>" method="POST">
-                    <label>
-                        Enter Your Name:
-                        <input type="text" name="attendeeName">
-                    </label>
-                    <% for(var i=0; i<meetings.userAvailability.length; i++) {%>
-                    <ul>
-                        <li class="attendeeAvailTimes">
-                            <% const meetingTimeUTC = moment.utc(meetings.userAvailability[i], "YYYY-MM-DDTHH:mm:SS.SSS[Z]"); %>
-                            <% const userTimezone = moment.tz.guess(); %>
-                            <% const meetingTimeLocal = meetingTimeUTC.clone().tz(userTimezone); %>
-                            <input type="checkbox" name="attendeeSelectedTime" class="timeSlot" value="<%= meetingTimeUTC.format("YYYY-MM-DDTHH:mm:ss.000[Z]") %>">
-                            <%= meetingTimeLocal.format('dddd, MMMM Do YYYY, h:mma z') %>
-                            </input>
-                          </li>
-                    </ul>
-                    <% } %>  
-            <button class="sendAvail"type="submit">Submit to Facilitator</button>
-        </form>   
+
+    <section class="bg-dark text-light p-5">
+        <div class="container">
+            <div class pb-5>
+            <h1 class="text-center">Choose Your Availability</h4>
+                <div class="card bg-secondary col-lg-8 mx-auto">
+                    <h5 class="card-header">Meeting Information</h5>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <form action="/meetings/updateAvail/<%= meetings._id %>" method="POST">
+                                <label > Enter Your Name:
+                                    <input type="text" name="attendeeName" placeholder="Name"> 
+                                </label>
+                                <% for(var i=0; i<meetings.userAvailability.length; i++) {%>
+                                <ul class="list-unstyled">
+                                    <li class="attendeeAvailTimes">
+                                        <% const meetingTimeUTC = moment.utc(meetings.userAvailability[i], "YYYY-MM-DDTHH:mm:SS.SSS[Z]"); %>
+                                        <% const userTimezone = moment.tz.guess(); %>
+                                        <% const meetingTimeLocal = meetingTimeUTC.clone().tz(userTimezone); %>
+                                        <input type="checkbox" name="attendeeSelectedTime" class="timeSlot" value="<%= meetingTimeUTC.format("YYYY-MM-DDTHH:mm:ss.000[Z]") %>">
+                                        <%= meetingTimeLocal.format('dddd, MMMM Do YYYY, h:mma z') %>
+                                        </input>
+                                    </li>
+                                </ul>
+                                <% } %>  
+                                <button class="btn btn-primary"type="submit">Submit to Facilitator</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
+
+        <!-- footer -->
+        <footer class="p-5 bg-dark text-white text-center position-relative">
+            <div class="container">
+                <p class="lead">Copyright &copy; 2023 Booker</p>
+    
+                <a href="#" class="postion-absolute bottom-0 end-0 p-5">
+                    <i class="bi bi-arrow-up-circle h1 text-primary"></i>
+                </a>
+            </div>
+        </footer>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
