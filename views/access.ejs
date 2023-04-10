@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
-<body>
+<body class="bg-dark d-flex flex-column">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
         <div class="container">
@@ -31,15 +31,26 @@
     <section class="bg-dark text-light p-5.5">
         <div class="container">
             <div class pb-5>
-                <h1 class='text-center'><%= meetings.meetingTitle %></h1>
+                
                 <div class="card bg-secondary col-lg-8 mx-auto">
-                    <h5 class="card-header">Meeting Information</h5>
+                    <h5 class="card-header">Meeting: <%= meetings.meetingTitle %></h5>
                     <div class="card-body">
                         <div class="mb-3">
-                            <ul class="list-unstyled">
-                                <li>Attendees: </span><%= meetings.attendees %></li>
+                            <ul class="list-unstyled">            
+                                <li>Finalised meeting time: 
+                                    <% if (meetings.finalMeetingTime) { %>
+                                        <% const meetingTimeUTC = moment.utc(meetings.finalMeetingTime, "YYYY-MM-DDTHH:mm:SS.SSS[Z]"); %>
+                                        
+                                        <% const userTimezone = moment.tz.guess(); %>
+                                        <% const meetingTimeLocal = meetingTimeUTC.clone().tz(userTimezone); %>
+                                        <% console.log(`meetingTimeLocal ${meetingTimeLocal.format('dddd, MMMM Do YYYY, h:mma z')}`)%>
+
+                                        <%= meetingTimeLocal.format('dddd, MMMM Do YYYY, h:mma z') %>
+                                    <% } else { %>
+                                        Awaiting confirmation
+                                    <% } %>
+                                </li>
                                 <li>Meeting Notes: </span><%= meetings.notes %></li>
-                                <li>Meeting Facilitator's Availability: </span><%= meetings.userAvailability %></li>
                             </ul>
                         </div>
                     </div>
@@ -82,7 +93,7 @@
     </section>
 
         <!-- footer -->
-        <footer class="p-5 bg-dark text-white text-center position-relative">
+        <footer class="p-5 bg-dark text-white text-center position-relative mt-auto">
             <div class="container">
                 <p class="lead">Copyright &copy; 2023 Booker</p>
     

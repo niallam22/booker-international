@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
-<body>
+<body class="bg-dark d-flex flex-column">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
         <div class="container">
@@ -30,43 +30,54 @@
     <section class="bg-dark text-light p-5">
         <div class="container">
             <div class pb-5>
-                <h1 class="text-center"><%= meeting.meetingTitle %></h1>
 
-                <!-- Finalise Meetings Form -->
-
-
+                <!-- Finalise Meetings Form - facilitator view -->
                 <div class="card bg-secondary col-lg-8 mx-auto">
-                    <h5 class="card-header">Create Meeting</h5>
+                    <h5 class="card-header">Meeting: <%= meeting.meetingTitle %></h5>
                     <div class="card-body">
                         <section class="">
                             <ul class="list-unstyled">
                                 <li>Meeting ID: <%= meeting._id %></li>
-                                <li>Date: <%= meeting.finalMeetingTime%></li>
+                                <!-- create conditional so if no final meeting time say tbf -->
+                                <li>
+                                    <% if (meeting.finalMeetingTime) { %>
+                                        <% const meetingTimeUTC = moment.utc(meeting.finalMeetingTime, "YYYY-MM-DDTHH:mm:SS.SSS[Z]"); %>
+                                        
+                                        <% const userTimezone = moment.tz.guess(); %>
+                                        <% const meetingTimeLocal = meetingTimeUTC.clone().tz(userTimezone); %>
+                                        <% console.log(`meetingTimeLocal ${meetingTimeLocal.format('dddd, MMMM Do YYYY, h:mma z')}`)%>
+
+                                        Date: <%= meetingTimeLocal.format('dddd, MMMM Do YYYY, h:mma z') %>
+                                    <% } else { %>
+                                        Finalise below
+                                    <% } %>
+                                </li>
+                                
                                 <li>Notes: <%= meeting.notes %></li>
                                 <li></li>
                             </ul>
                             <% let attendeeList = '' %>
-                            <% attendees.forEach(attendee => attendeeList += attendee.attendeeName + ', ') %>
+                            <% attendees.forEach(attendee => attendeeList += attendee.attendeeName.trim() + ', ') %>
                             <span>Attendees (<%= attendees.length %>): 
                                 <%# THIS IS A COMMENT %>
                                 <%= attendeeList %>
                             </span>
                             <form action="/meetings/finaliseMeeting/<%= meeting._id %>" method="POST">
                                 <fieldset>
-                                    <table>
+                                    <table class="table table-striped table-hover table-sm">
                                         <thead>
-                                            <th>Select time</th>
-                                            <th>No. responses</th>
-                                            <th>Attendees</th>
+                                            <th class=>Select time</th>
+                                            <th class=>No. responses</th>
+                                            <th class=>Attendees</th>
                                         </thead>
                                         <tbody>
                                             <%# code itterates through the facilitators availbility and checks if there is corrosponding attendee responses and creates the table data EL AND ATTENDEEAVALIBILITY HAVE DIFF FORMATS FOR SOME REASON%>
-
+                                            
                                             <% meeting.userAvailability.forEach( el => { %>
-                                                <% const meetingTimeUTC = moment.utc(el, "YYYY-MM-DDTHH:mm:ss.SSS[Z]"); %>
-                                                <% const meetingTimeLocal = meetingTimeUTC.local().format("dddd, MMMM Do YYYY, h:mm a"); %>
-                                                <% console.log('el: ', el) %>
-
+                                                <% let meetingTimeUTC = moment.utc(el, "YYYY-MM-DDTHH:mm:ss.SSS[Z]"); %>
+                                                <% let meetingTimeLocal = meetingTimeUTC.local().format("dddd, MMMM Do YYYY, h:mm a"); %>
+                                                <% console.log('meetingTimeUTC meeting.ejs', meetingTimeUTC)%>
+                                                <% console.log('el meeting.ejs', el)%>
                                                 <% let attendeesAvailable = 0 %>
                                                 <% let attendeeResponses = '' %>
                                                 <% attendees.forEach(attendee => { %>
@@ -75,7 +86,7 @@
 
                                                     <% if(attendee.attendeeAvailability.includes(el.split(', ')[1])){ %> 
                                                         <% attendeesAvailable ++ %>
-                                                        <% attendeeResponses += attendee.attendeeName %>
+                                                        <% attendeeResponses += attendee.attendeeName.trim() + ', ' %>
                                                     <% } %>
                                                 <% }) %>
                                                 <tr>
@@ -102,7 +113,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="p-5 bg-dark text-white text-center position-relative">
+    <footer class="p-5 bg-dark text-white text-center position-relative mt-auto">
         <div class="container">
             <p class="lead">Copyright &copy; 2023 Booker</p>
 

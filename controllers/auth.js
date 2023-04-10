@@ -15,6 +15,7 @@ const User = require('../models/User')
   //user is attempting to log in
   exports.postLogin = (req, res, next) => {
     //check if entries are valid
+    
     const validationErrors = []
     if (!validator.isEmail(req.body.email)) validationErrors.push({ msg: 'Please enter a valid email address.' })
     if (validator.isEmpty(req.body.password)) validationErrors.push({ msg: 'Password cannot be blank.' })
@@ -37,6 +38,7 @@ const User = require('../models/User')
         req.flash('success', { msg: 'Success! You are logged in.' })
         res.redirect(req.session.returnTo || '/meetings')
       })
+      console.log('postLogin- req.session: ', req.session)
     })(req, res, next)
   }
   

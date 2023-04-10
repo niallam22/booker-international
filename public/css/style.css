@@ -10,3 +10,7 @@
   .input-group-append {
     cursor: pointer;
   }
+
+body{
+  min-height: 100vh;
+}
