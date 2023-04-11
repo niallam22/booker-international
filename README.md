@@ -2,8 +2,8 @@ Booker
 
 Born out of the frustration of scheduling group meetings spanning different timezones. This project enables people to create and share a meeting with their potential availability. Once attendees have responded the faciliator can then select the best possible time that suits everybody whilst also removing the hastle of manually calculating timezone differences that Booker handles automajically.
 
+Link to project: https://booker.cyclic.app/
 ![Setting up a meeting](readmeImg/booking.gif?raw=true "Booking a meeting")
-Link to project: 
 
 How It's Made:
 Tech used: HTML, CSS, JavaScript, Express 
@@ -20,14 +20,10 @@ Once attendence has been registered for the meeting, the facilitator can view th
 
 Optimizations
 Use a javascript library such as React to create the UI to leverage reusable components e.g the public and private meeting views would ideally share a parent component.
-
-Create email notification of meeting times and changes
-Create shareable clickable meeting links
-3rd party calendar syncing
+Create email notification of meeting times and changes.
+Create shareable clickable meeting links.
+3rd party calendar syncing.
+Encrypt database document IDs when they are being used on client side.
 
 Lessons Learned:
-Where possible and appropritate prioritising client side computation to reduce the load on the servers e.g when creating a meeting the user generates a large array of timeslots that they can continue to change. There is no need for these times to be processed by the server.
-
-
-
-
+Where possible and appropritate, prioritise client side computation to reduce the load on the servers e.g when creating a meeting the user generates a large array of timeslots that they can continue to change. There is no need for these times to be processed by the server.
