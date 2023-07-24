@@ -1,4 +1,4 @@
-# Booker
+# Booker International
 
 Born out of the frustration of scheduling group meetings spanning different timezones. This project enables people to create and share a meeting with their potential availability. Once attendees have responded the faciliator can then select the best possible time that suits everybody whilst also removing the hastle of manually calculating timezone differences that Booker handles automajically.
 
